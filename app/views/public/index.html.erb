@@ -6,15 +6,25 @@
         <div class="col-12 pt-3 pb-3 mb-4 border-bottom">
         	<div class="float-right">
         		<% if account_signed_in? %>
-        			<%= link_to "Sign Out", destroy_account_session_path, method: :delete,  class: "btn btn-outline-primary" %>
+        			<%= link_to "Выйти", destroy_account_session_path, method: :delete,  class: "btn btn-primary" %>
         		<% else %>
-        			<%= link_to "Log In", new_account_session_path, class: "btn btn-outline-primary" %>
-        			<%= link_to "Sign Up", new_account_registration_path, class: "btn btn-primary" %>
+        			<%= link_to "Войти", new_account_session_path, class: "btn btn-outline-primary" %>
+        			<%= link_to "Зарегестрироваться", new_account_registration_path, class: "btn btn-primary" %>
         		<% end %>
         	</div>
-          <p class="h3">Reddit Clone</p>
+          <p class="h3"><%= link_to "Reddit Clone", root_path %></p>
         </div>
      </div>
+
+<!--something  -->
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<%= yield %>
+		</div>	
+	</div>
+</div>
+<!--/something  -->
 
 <!-- main -->
 
@@ -49,7 +59,14 @@
 
 	<div class="row">
 		<div class="col-8">
-			Left col (Wide)
+			<% @posts.each do |post| %>
+				<div class="card p-3">
+					<h4><%= link_to post.title, community_post_path(post.community_id, post) %></h4>
+					<p>
+						<% truncate post.body, length: 200 %>
+					</p>
+				</div>
+<% end %>
 		</div>
 
 		<div class="col-4">
@@ -57,13 +74,14 @@
 
 			<div class="card>
 				<ul class="list-group list-group-flush">
-					<li class="list-group-item">Cras justo odio</li>
-					<li class="list-group-item">Dapibus ac facilisis in</li>
-					<li class="list-group-item">Vestibulum at eros</li>
+					<% @communities.each do |community| %>
+						<li class="list-group-item"><%= link_to community.name, community_path(community) %></li>
+					<% end %>
+
 				</ul>
 			</div>
 
-		<%= link_to "Смотреть всё", "", class: "btn btn-primary mt-3" %>
+		<%= link_to "Смотреть всё", communities_path, class: "btn btn-primary mt-3" %>
 
 
 		</div>
